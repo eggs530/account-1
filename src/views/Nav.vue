@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="nav">
     <router-link to="/money">记账</router-link>
     |
     <router-link to="/labels">标签</router-link>
@@ -10,10 +10,12 @@
 
 <script lang="ts">
 export default {
-name: "Nav"
+  name: "Nav"
 }
 </script>
 
 <style lang="scss" scoped>
-
+.nav {
+  border: 1px solid red;
+}
 </style>
