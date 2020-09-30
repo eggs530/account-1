@@ -5,9 +5,16 @@
 </template>
 
 <style lang="scss">
-body{
+*{
   margin:0;padding:0;
   box-sizing: border-box;
+}
+body{
+  line-height: 1.5;
+}
+a{
+  text-decoration: none;
+  color:inherit;
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
