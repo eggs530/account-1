@@ -25,22 +25,22 @@ export default {
 <style lang="scss" scoped>
 nav {
   display: flex;
-  box-shadow: 0 0 3px rgba(0,0,0,0.25);
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
   font-size: 12px;
   flex-direction: row;
-  >.item{
-    padding: 2px 0;
-    width:33.333333%;
-    display:flex;
-    align-items: center;
-    justify-content:center;
-    flex-direction: column;
-  }
-  .icon{
-    width:32px;
-    height: 32px;
-  }
-  >.item.selected{
+    > .item {
+      padding: 2px 0;
+      width: 33.333333%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      .icon {
+        width: 32px;
+        height: 32px;
+      }
+    }
+    >.item.selected{
     color: red;
   }
 }

@@ -14,6 +14,9 @@ module.exports = {
         .loader("svg-sprite-loader")  //重复确定使用这个loader
         .options({ extract: false })   // 添加选项，不要解析出文件
         .end()
+        .use("svgo-loader").loader("svgo-loader")
+        .tap(options=>({...options,plugins:[{removeAttrs:{attrs:'fill'}}]}))
+        .end()
 
     config
         .plugin("svg-sprite")//配置插件
