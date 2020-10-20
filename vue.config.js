@@ -1,6 +1,7 @@
 const path = require("path");//引入node.js模块
 
 module.exports = {
+  publicPath:'',
   lintOnSave: false,
   chainWebpack: config => {
     const dir = path.resolve(__dirname, "src/assets/icons");  //__dir当前目录，讲解
