@@ -1,6 +1,5 @@
 <template>
   <layout class-prefix="layout">
-    {{record}}
     <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
     <Types :value.sync="record.type"/>
     <Notes @update:value="onUpdateNotes"/>
@@ -16,12 +15,14 @@ import Tags from '@/components/Money/Tags.vue';
 import Notes from '@/components/Money/Notes.vue';
 import Types from '@/components/Money/Types.vue';
 
+const recordList:Record[]=JSON.parse(window.localStorage.getItem('recordList')||'[]');
 //声明一个类型
 type Record={
   tags:string[],
   notes:string;
   type:string;
   amount:number;
+  createdAt?:Date //除了写数据类型还可以写 类
 }
 
 @Component({
@@ -32,7 +33,7 @@ export default class Money extends Vue {
   record:Record={
     tags:[],notes:'',type:'+',amount:0
   };
-  recordList:Record[]=[];
+  recordList:Record[]=recordList;
 
   onUpdateTags(value: string[]) {
     this.record.tags=value
@@ -43,9 +44,9 @@ export default class Money extends Vue {
   }
 
   saveRecord(){
-    const record2 = JSON.parse(JSON.stringify(this.record))
+    const record2:Record= JSON.parse(JSON.stringify(this.record))
+    record2.createdAt = new Date()
     this.recordList.push(record2)
-    console.log(this.record)
   }
 
   @Watch('recordList')
