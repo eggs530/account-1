@@ -14,26 +14,20 @@ import NumberPad from '@/components/Money/NumberPad.vue';
 import Tags from '@/components/Money/Tags.vue';
 import Notes from '@/components/Money/Notes.vue';
 import Types from '@/components/Money/Types.vue';
+import {model} from '@/model';
 
-const recordList:Record[]=JSON.parse(window.localStorage.getItem('recordList')||'[]');
+const recordList= model.fetch();
 //声明一个类型
-type Record={
-  tags:string[],
-  notes:string;
-  type:string;
-  amount:number;
-  createdAt?:Date //除了写数据类型还可以写 类
-}
 
 @Component({
   components: {Types, Notes, Tags, NumberPad}
 })
 export default class Money extends Vue {
   tags = ['衣', '食', '住', '行'];
-  record:Record={
+  record:RecordItem={
     tags:[],notes:'',type:'+',amount:0
   };
-  recordList:Record[]=recordList;
+  recordList:RecordItem[]=recordList;
 
   onUpdateTags(value: string[]) {
     this.record.tags=value
@@ -44,14 +38,14 @@ export default class Money extends Vue {
   }
 
   saveRecord(){
-    const record2:Record= JSON.parse(JSON.stringify(this.record))
+    const record2:RecordItem= model.clone(this.record)
     record2.createdAt = new Date()
     this.recordList.push(record2)
   }
 
   @Watch('recordList')
   onRecordListChange(){
-    window.localStorage.setItem('recordList',JSON.stringify(this.recordList))
+    model.save(this.recordList)
   }
 }
 </script>
