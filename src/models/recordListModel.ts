@@ -1,5 +1,5 @@
 const localStorageKeyName = 'recordList'; //常量化避免被修改
-const model = {
+const recordListModel = {
     clone(data:RecordItem[]|RecordItem){
         return JSON.parse(JSON.stringify(data))
     },
@@ -11,4 +11,4 @@ const model = {
     }//保存数据
 };
 
-export {model};
+export {recordListModel};
