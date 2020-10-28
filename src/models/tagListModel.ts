@@ -1,7 +1,11 @@
-const localStorageKeyName = 'tagList'; //常量化避免被修改
+const localStorageKeyName = 'tagList';
+type Tag = {
+    id:string;
+    name:string;
+}
 type TagListModel ={
-    data:string[]
-    fetch:()=>string[]
+    data:Tag[]
+    fetch:()=>Tag[]
     create:(name:string)=>'success'|'duplicated'
     //success表示成功 duplicated表示内容重复
     //联合类型：防止字符串拼写错误 可直接列举具体的字符串表明类型
@@ -14,8 +18,10 @@ const tagListModel:TagListModel= {
         return this.data
         },//获取数据
     create(name:string){
-        if(this.data.indexOf(name)>=0){return 'duplicated'}
-        this.data.push(name);
+        //this.data = [{id:'1',name:'1'},{id:'2',name:'2"}]
+        const names = this.data.map(item => item.name)//获取所有item里面的name组成新的数组
+        if(names.indexOf(name)>=0){return 'duplicated'}
+        this.data.push({id:name, name:name});
         this.save()
         return 'success'
     },
