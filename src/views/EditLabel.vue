@@ -6,10 +6,13 @@
       <span class="rightIcon"></span>
     </div>
     <div class="form-wrapper">
-      <FormItem :value="tag.name" field-name="标签名" placeholder="请输入标签名"/>
+      <FormItem :value="tag.name"
+                @update:value="update"
+                field-name="标签名"
+                placeholder="请输入标签名"/>
     </div>
     <div class="button-wrapper">
-      <Button>删除标签</Button>
+      <Button @click="remove">删除标签</Button>
     </div>
   </Layout>
 </template>
@@ -26,16 +29,23 @@ import Button from "@/components/Button.vue";
 })
 export default class EditLabel extends Vue {
   //tag的初始值是undefined,类型是一个有id和name的对象，可能为空？
-  tag?: { id: string;name: string } = undefined;
+  tag?: { id: string; name: string } = undefined;
+
   created() {
     const id = this.$route.params.id;
     tagListModel.fetch();
     const tags = tagListModel.data;
     const tag = tags.filter(t => t.id === id)[0];
     if (tag) {
-      this.tag=tag
+      this.tag = tag;
     } else {
       this.$router.replace("/404");//路由器
+    }
+  }
+
+  update(name: string) {
+    if (this.tag) {
+      tagListModel.update(this.tag.id, name);
     }
   }
 }
