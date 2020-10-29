@@ -8,7 +8,7 @@
     </router-link>
   </ol>
   <div class="createTag-wrapper">
-    <button class="createTag" @click="createTag">新建标签</button>
+    <Button class="createTag" @click="createTag">新建标签</Button>
   </div>
 </layout>
 </template>
