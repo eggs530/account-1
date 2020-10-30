@@ -10,6 +10,7 @@ type TagListModel = {
     //success表示成功 duplicated表示内容重复
     //联合类型：防止字符串拼写错误 可直接列举具体的字符串表明类型
     update: (id: string, name: string) => "success" | "not found" | "duplicated";
+    remove:(id:string)=>boolean;
     save: () => void;//不返回
 }
 const tagListModel: TagListModel = {
@@ -43,6 +44,20 @@ const tagListModel: TagListModel = {
         } else {
             return "not found";
         }
+    },
+    remove(id: string) {
+        let index = -1;
+        for (let i = 0; i < this.data.length; i++) {
+            if (this.data[i].id === id) {
+                index = i;
+                break;
+            }
+        }
+        console.log('index')
+        console.log(index)
+        this.data.splice(index, 1);
+        this.save();
+        return true;
     },
     save(){
     window.localStorage.setItem(localStorageKeyName, JSON.stringify(this.data));
