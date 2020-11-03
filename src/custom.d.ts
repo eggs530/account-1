@@ -1,9 +1,9 @@
-type RecordItem={
-    tags:string[],
-    notes:string;
-    type:string;
-    amount:number;
-    createdAt?:Date
+type RecordItem = {
+    tags: string[],
+    notes: string;
+    type: string;
+    amount: number;
+    createdAt?: Date
 }
 type Tag = {
     id: string;
@@ -12,15 +12,17 @@ type Tag = {
 type TagListModel = {
     data: Tag[];
     fetch: () => Tag[];
-    create: (name: string) => "success" | "duplicated";
-    //success表示成功 duplicated表示内容重复
-    //联合类型：防止字符串拼写错误 可直接列举具体的字符串表明类型
-    update: (id: string, name: string) => "success" | "not found" | "duplicated";
-    remove:(id:string)=>boolean;
+    create: (name: string) => 'success' | 'duplicated';
+    update: (id: string, name: string) => 'success' | 'not found' | 'duplicated';
+    remove: (id: string) => boolean;
     save: () => void;//不返回
 }
-interface Window{
-    tagList:Tag[];
-    createTag:(name:string)=>void
+
+interface Window {
+    tagList: Tag[];
+    createTag: (name: string) => void;
+    removeTag: (id: string) => boolean;
+    updateTag: (id: string, name: string) => 'success' | 'not found' | 'duplicated';
+    findTag:(id:string)=>Tag|undefined;
 }
 
