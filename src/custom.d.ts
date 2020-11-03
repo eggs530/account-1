@@ -20,6 +20,7 @@ type TagListModel = {
     save: () => void;//不返回
 }
 interface Window{
-    tagList:Tag[]
+    tagList:Tag[];
+    createTag:(name:string)=>void
 }
 
