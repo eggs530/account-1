@@ -1,9 +1,9 @@
 type RecordItem = {
-    tags: string[],
+    tags: string[];
     notes: string;
     type: string;
     amount: number;
-    createdAt?: Date
+    createdAt?: Date;
 }
 type Tag = {
     id: string;
@@ -23,6 +23,8 @@ interface Window {
     createTag: (name: string) => void;
     removeTag: (id: string) => boolean;
     updateTag: (id: string, name: string) => 'success' | 'not found' | 'duplicated';
-    findTag:(id:string)=>Tag|undefined;
+    findTag: (id: string) => Tag|undefined;
+    recordList: RecordItem[];
+    createRecord: (record: RecordItem) => void;
 }
 
