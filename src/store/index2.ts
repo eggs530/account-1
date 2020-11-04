@@ -4,7 +4,8 @@ import tagStore from "@/store/tagStore";
 
 const store = {
     ...recordStore,
-    ...tagStore
+    ...tagStore,
 };
 
+console.log(store)
 export default store;
