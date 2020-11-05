@@ -18,22 +18,24 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import {Component} from "vue-property-decorator";
-import FormItem from "@/components/Money/FormItem.vue";
-import Button from "@/components/Button.vue";
+import Vue from 'vue';
+import {Component} from 'vue-property-decorator';
+import FormItem from '@/components/Money/FormItem.vue';
+import Button from '@/components/Button.vue';
 
 @Component({
-  components: {Button, FormItem}
+  components: {Button, FormItem},
 })
 export default class EditLabel extends Vue {
-  //tag的初始值是undefined,类型是一个有id和name的对象，可能为空？
-  tag?: Tag = undefined;
+  get tag() {
+    return this.$store.state.currentTag;
+  }
 
   created() {
-    this.tag = store.findTag(this.$route.params.id);
+    const id = this.$route.params.id;
+    this.$store.commit('setCurrentTag', id);
     if (!this.tag) {
-      this.$router.replace("/404");//路由器
+      this.$router.replace('/404');//路由器
     }
   }
 
@@ -48,7 +50,7 @@ export default class EditLabel extends Vue {
       if (store.removeTag(this.tag.id)) {
         this.$router.back();
       } else {
-        window.alert("删除失败");
+        window.alert('删除失败');
       }
     }
   }
