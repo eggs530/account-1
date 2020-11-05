@@ -46,7 +46,6 @@ const store = new Vuex.Store({
     }
 });
 
-store.commit('increment');//commit用来触发变更
 
 
 export default store;
