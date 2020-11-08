@@ -1,3 +1,4 @@
+/* eslint-disable */
 const path = require("path");//引入node.js模块
 
 module.exports = {
@@ -21,7 +22,8 @@ module.exports = {
 
     config
         .plugin("svg-sprite")//配置插件
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         .use(require("svg-sprite-loader-mod/plugin"), [{ plainSprite: true }]);
     config.module.rule("svg").exclude.add(dir); // 其他 svg loader 排除 icons 目录
-  }
+  },
 };
