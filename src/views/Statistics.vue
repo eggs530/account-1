@@ -2,45 +2,66 @@
   <layout>
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync='type'/>
     <Tabs class-prefix="interval" :data-source="intervalList" :value.sync='interval'/>
-      <ol>
-        <li v-for="(group,index) in result" :key="index">
-          <h3 class="title">{{group.title}}</h3>
-          <ol>
-            <li v-for="item in group.items" :key="item.id"
-                class="record"
-            >
-             <span>{{tagString(item.tags)}}</span>
-              <span class="notes">{{item.notes}}</span>
-              <span>￥{{item.amount}}</span>
-            </li>
-          </ol>
-        </li>
-      </ol>
+    <ol>
+      <li v-for="group in result" :key="group.title">
+        <h3 class="title">{{ beautify(group.title) }}</h3>
+        <ol>
+          <li v-for="item in group.items" :key="item.id"
+              class="record"
+          >
+            <span>{{ tagString(item.tags) }}</span>
+            <span class="notes">{{ item.notes }}</span>
+            <span>￥{{ item.amount }}</span>
+          </li>
+        </ol>
+      </li>
+    </ol>
   </layout>
 </template>
 
 
 <script lang="ts">
-import Vue from "vue";
-import {Component} from "vue-property-decorator";
-import Tabs from "@/components/Tabs.vue";
-import intervalList from "@/constants/intervalList";
-import recordTypeList from "@/constants/recordTypeList";
+import Vue from 'vue';
+import {Component} from 'vue-property-decorator';
+import Tabs from '@/components/Tabs.vue';
+import intervalList from '@/constants/intervalList';
+import recordTypeList from '@/constants/recordTypeList';
+import recordStore from '@/store/recordStore';
+import dayjs from 'dayjs';
+
+const oneDay = 86400*1000
 
 @Component({
   components: {Tabs}
 })
 export default class Statistics extends Vue {
-  tagString(tags:Tag[]){
-    return tags.length===0?'无':tags.join(',')
+  tagString(tags: Tag[]) {
+    return tags.length === 0 ? '无' : tags.join(',');
   }
+
+  beautify(string: string) {
+    const day = dayjs(string)
+    const now = dayjs()
+    if(day.isSame(now,'day')){
+      return '今天'
+    }else if(day.isSame(now.subtract(1,'day'),'day')){
+      return '昨天';
+    }else if(day.isSame(now.subtract(2,'day'),'day')){
+        return '前天'
+    }else if(day.isSame(now,'year')){
+      return day.format('MM月D日')
+    }{
+      return day.format('YYYY年M月D日')
+    }
+  }
+
   get recordList() {
     return (this.$store.state as RootState).recordList;
   }
 
   get result() {
     const {recordList} = this;
-    type HashTableValue = { title: string,items: RecordList[] }
+    type HashTableValue = { title: string, items: RecordList[] }
 
     const hashTable: { [key: string]: HashTableValue } = {};
     for (let i = 0; i < recordList.length; i++) {
@@ -50,12 +71,13 @@ export default class Statistics extends Vue {
     }
     return hashTable;
   }
+
   beforeCreate() {
     this.$store.commit('fetchRecords');
   }
 
-  type = "-";
-  interval = "day";
+  type = '-';
+  interval = 'day';
   intervalList = intervalList;
   recordTypeList = recordTypeList;
 }
@@ -78,23 +100,27 @@ export default class Statistics extends Vue {
   .interval-tabs-item {
     height: 48px;
   }
-  %item{
-    padding:8px 16px;
+
+  %item {
+    padding: 8px 16px;
     line-height: 24px;
     display: flex;
     justify-content: space-between;
     align-content: center;
   }
-  .title{
+
+  .title {
     @extend %item
   }
-  .record{
+
+  .record {
     background: white;
     @extend %item
   }
-  .notes{
-    margin-right:auto;
-    margin-left:16px;
+
+  .notes {
+    margin-right: auto;
+    margin-left: 16px;
     color: #999;
   }
 }
