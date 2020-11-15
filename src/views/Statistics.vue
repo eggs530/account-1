@@ -72,7 +72,7 @@ export default class Statistics extends Vue {
     type Result = {
       title: string;
       total?: number;
-      items: RecordItem[]
+      items: RecordItem[];
     }[]
     const result: Result = [{
       title: dayjs(recordList[0].createdAt).format('YYYY-MM-DD'),
