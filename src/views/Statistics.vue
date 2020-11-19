@@ -1,7 +1,9 @@
 <template>
   <layout>
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync='type'/>
-    <Chart :options="x"/>
+    <div class="chart-wrapper" ref="chartWrapper">
+      <Chart class="chart" :options="x"/>
+    </div>
     <ol v-if="groupList.length>0">
       <li v-for="(group,index) in groupList" :key="index">
         <h3 class="title">{{ beautify(group.title) }} <span>￥{{ group.total }}</span></h3>
@@ -40,6 +42,9 @@ export default class Statistics extends Vue {
   tagString(tags: Tag[]) {
     return tags.length === 0 ? '无' : tags.map(t => t.name).join('，');
   }
+  mounted(){
+    (this.$refs.chartWrapper as HTMLDivElement).scrollLeft = 9999
+  }
 
   beautify(string: string) {
     const day = dayjs(string);
@@ -60,18 +65,23 @@ export default class Statistics extends Vue {
 
   get x() {
     return {
+      grid:{
+        left:0,
+        right:0,
+      },
       xAxis: {
         type: 'category',
         data: [
-          'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
-          'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
-          'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
-          'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
-          'Mon', 'Tue'
+          '1', '2', '3', '4', '5', '6', '7',
+          '8', '9', '10', '11', '12', '13', '14',
+          '15', '16', '17', '18', '19', '20', '21',
+          '22', '23', '24', '25', '26', '27', '28',
+          '29', '30'
         ]
       },
       yAxis: {
-        type: 'value'
+        type: 'value',
+        show:false
       },
       series: [{
         data: [
@@ -183,6 +193,13 @@ export default class Statistics extends Vue {
     margin-right: auto;
     margin-left: 16px;
     color: #999;
+  }
+
+  .chart{
+    width:430%;
+    &-wrapper{
+      overflow:auto;
+    }
   }
 }
 </style>
