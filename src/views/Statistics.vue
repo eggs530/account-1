@@ -1,6 +1,7 @@
 <template>
   <layout>
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync='type'/>
+    <Chart :options="x"/>
     <ol v-if="groupList.length>0">
       <li v-for="(group,index) in groupList" :key="index">
         <h3 class="title">{{ beautify(group.title) }} <span>￥{{ group.total }}</span></h3>
@@ -29,14 +30,15 @@ import Tabs from '@/components/Tabs.vue';
 import recordTypeList from '@/constants/recordTypeList';
 import dayjs from 'dayjs';
 import clone from '@/lib/clone';
+import Chart from '@/components/Chart.vue';
 
 
 @Component({
-  components: {Tabs}
+  components: {Tabs, Chart}
 })
 export default class Statistics extends Vue {
   tagString(tags: Tag[]) {
-    return tags.length === 0 ? '无' : tags.map(t=>t.name).join('，');
+    return tags.length === 0 ? '无' : tags.map(t => t.name).join('，');
   }
 
   beautify(string: string) {
@@ -54,6 +56,35 @@ export default class Statistics extends Vue {
     {
       return day.format('YYYY年M月D日');
     }
+  }
+
+  get x() {
+    return {
+      xAxis: {
+        type: 'category',
+        data: [
+          'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
+          'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
+          'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
+          'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
+          'Mon', 'Tue'
+        ]
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [{
+        data: [
+          820, 932, 901, 934, 1290, 1330, 1320,
+          820, 932, 901, 934, 1290, 1330, 1320,
+          820, 932, 901, 934, 1290, 1330, 1320,
+          820, 932, 901, 934, 1290, 1330, 1320,
+          820, 932
+        ],
+        type: 'line'
+      }],
+      tooltip: {show: true}
+    };
   }
 
   get recordList() {
@@ -104,10 +135,16 @@ export default class Statistics extends Vue {
 </script>
 
 <style scoped lang="scss">
-.noResult{
-  padding:16px;
+.echarts {
+  max-width: 100%;
+  height: 400px;
+}
+
+.noResult {
+  padding: 16px;
   text-align: center;
 }
+
 ::v-deep {
   .type-tabs-item {
     background: #c4c4c4;;
