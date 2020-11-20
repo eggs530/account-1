@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import  Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import NumberPad from '@/components/Money/NumberPad.vue';
 import Tags from '@/components/Money/Tags.vue';
